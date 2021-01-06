@@ -1,5 +1,5 @@
 import React from "react";
-import './Game.css';
+import './Game.scss';
 
 export default ({ rounds, roll, frame }) => {
   // console.log(frame[9,9])

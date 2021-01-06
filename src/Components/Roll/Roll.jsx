@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { setFrame, setRoll_1, setRoll_2, setRes, setRounds } from "../../actions";
-import './roll.css';
+import './Roll.scss';
 
 export default ({ number, disable, roll_1, roll_2, frame, res, rounds }) => {
 
@@ -29,9 +29,9 @@ export default ({ number, disable, roll_1, roll_2, frame, res, rounds }) => {
   }
 
   useEffect(() => {
-    console.log(frame)
-    setRoll_1("")
-    setRoll_2("")
+    // console.log(frame)
+    // setRoll_1("")
+    // setRoll_2("")
 
   }, [frame]);
 

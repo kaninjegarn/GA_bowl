@@ -1,6 +1,6 @@
 import React from "react";
-import './app.css';
-import { Main } from "./components";
+import './App.css';
+import { Main } from "./Components";
 
 export default () => {
   return (

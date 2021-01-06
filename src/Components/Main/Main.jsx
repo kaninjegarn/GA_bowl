@@ -1,6 +1,6 @@
 import React from "react";
-import './Main.css';
-import { Roll, Game, Pins } from '../../components';
+import './Main.scss';
+import { Roll, Game, Pins } from '../../Components';
 
 export default ({ roll_1, roll_2 }) => {
 
