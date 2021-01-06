@@ -1,0 +1,20 @@
+.bowling__frames {
+
+  display: flex;
+}
+
+.bowling__frame {
+  width: 80px;
+  height: 60px;
+  border: 1px solid black;
+}
+
+.bowling__frame--upper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bowling__res--second {
+  border: 1px solid black;
+  width: 40px;
+}

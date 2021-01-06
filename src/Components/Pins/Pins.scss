@@ -1,0 +1,21 @@
+
+.container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.pin-1, .pin-2, .pin-3, .pin-4, .pin-5, .pin-6, .pin-7,
+.pin-8, .pin-9, .pin-10 {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 99px;
+}
+
+.row-1, .row-2, .row-3, .row-4 {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+}
+
