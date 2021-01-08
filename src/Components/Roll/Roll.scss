@@ -1,5 +1,19 @@
 .roll {
-  height: 30px;
-  width: 50px;
+  height: 40px;
+  width: 60px;
   border: 2px solid black;
+  margin-right: 5px;
+  border-radius: 25px;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+
+  &:disabled {
+    display: none;
+  }
+
+  &:hover {
+    color: red;
+    background-color: white;
+  }
 }

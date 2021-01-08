@@ -33,14 +33,12 @@ export const setFrames = (frames, roll_1, roll_2) => {
   store.dispatch({
     type: SET_FRAMES,
     frames: frames,
-    // frames: [...frames, [roll_1, roll_2, roll_1+roll_2]],
   });
 }
 
-
-export const setRes = (roll_1, roll_2) => {
+export const setRes = (res, roll_1, roll_2) => {
   store.dispatch({
     type: SET_RES,
-    res: roll_1 + roll_2
+    res: res
   });
 }

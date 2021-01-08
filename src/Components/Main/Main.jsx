@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import './Main.scss';
 import { Roll, Game, Pins } from '../../Components';
-import { setFrame, setFrames, setRoll_1, setRoll_2 } from "../../actions";
+import { setFrame, setFrames, setRoll_1, setRoll_2, setRes } from "../../actions";
+import { isStrike, isSpare } from "../../helpers";
 
-export default ({ roll_1, roll_2, frames, frame  }) => {
+export default ({ roll_1, roll_2, frames, frame, res  }) => {
 
   const handleClick = pins => {
     // console.log(pins, roll_1)
@@ -20,29 +21,44 @@ export default ({ roll_1, roll_2, frames, frame  }) => {
   //   return roll_1 + roll_2 === 10;
   // }
 
-  function isStrike(frame) {
-    return frame[0] == 10;
-  }
-  function isSpare(round) {
-    return !isStrike(round) && getScore(round) == 10;
-  }
-  function getScore(round) {
-    return round[0] + round[1];
-  }
+  // const isStrike = (frame) => {
+  //   console.log("strike")
+  //   return frame[0] == 10;
+  // }
+
+  // function isSpare(round) {
+  //   return !isStrike(round) && getScore(round) == 10;
+  // }
+  // function getScore(round) {
+  //   return round[0] + round[1];
+  // }
 
   useEffect(() => {
-    if(roll_2 != "") {
-      console.log("roll1", roll_1)
-      console.log("roll2", roll_2)
+    if(roll_2 != "" || roll_2 === 0) {
+      console.log("roll 1", roll_1)
+      console.log("roll2 ", roll_2)
       let tempArr = [[roll_1, roll_2]];
-      console.log(tempArr)
       setFrames(frames.concat(tempArr));
-      console.log(frames);
+      if(isSpare(roll_1, roll_2)) {
+        console.log("SPARE")
+        
+      }
+      // console.log(frames);
       setRoll_1("");
       setRoll_2("");
     }
   }, [roll_2]);
 
+  useEffect(() =>{
+    if (roll_1 != "") {
+      
+      console.log("skippar första steget", roll_1)
+      if(isStrike(roll_1)) {
+        console.log("STRIKE!");
+        setRoll_2("X")
+      }
+    }
+  }, [roll_1])
 
   return (
     <div>

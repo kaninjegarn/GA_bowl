@@ -5,8 +5,9 @@ import './Roll.scss';
 export default ({ number, disable, roll_1, roll_2, frames, res, rounds }) => {
   const handleClick = () => {
     if (roll_1 === "") {
-      setRoll_1(number)
-    } else if (roll_1 != "") {
+        setRoll_1(number)
+      console.log(roll_1)
+    } else if (roll_1 != "" || roll_1 === 0) {
       setRoll_2(number)
     }
   }
