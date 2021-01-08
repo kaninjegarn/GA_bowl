@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './Main.scss';
 import { Roll, Game, Pins } from '../../Components';
+import { setFrame, setFrames, setRoll_1, setRoll_2 } from "../../actions";
 
-export default ({ roll_1, roll_2 }) => {
+export default ({ roll_1, roll_2, frames, frame  }) => {
 
   const handleClick = pins => {
     // console.log(pins, roll_1)
@@ -10,6 +11,39 @@ export default ({ roll_1, roll_2 }) => {
       return true;
     }
   }
+  // const isStrike = (roll_1) => {
+  //   const strike = 10
+  //   return roll === strike
+  // }
+
+  // const isSpare = (roll_1, roll_2) => {
+  //   return roll_1 + roll_2 === 10;
+  // }
+
+  function isStrike(frame) {
+    return frame[0] == 10;
+  }
+  function isSpare(round) {
+    return !isStrike(round) && getScore(round) == 10;
+  }
+  function getScore(round) {
+    return round[0] + round[1];
+  }
+
+  useEffect(() => {
+    if(roll_2 != "") {
+      console.log("roll1", roll_1)
+      console.log("roll2", roll_2)
+      let tempArr = [[roll_1, roll_2]];
+      console.log(tempArr)
+      setFrames(frames.concat(tempArr));
+      console.log(frames);
+      setRoll_1("");
+      setRoll_2("");
+    }
+  }, [roll_2]);
+
+
   return (
     <div>
       <Game />

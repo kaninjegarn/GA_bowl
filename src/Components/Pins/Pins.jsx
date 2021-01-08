@@ -3,12 +3,8 @@ import './Pins.scss';
 
 export default ({ roll_1, roll_2, rounds }) => {
   let pins = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  // pins.splice(Math.floor(Math.random() * 10), roll_1);
   pins.splice(0, roll_1);
   pins.splice(0, roll_2);
-  // console.log(rounds[5,5]);
-  // console.log(Math.floor(Math.random() * 10));
 
   return (
     <div className="container">

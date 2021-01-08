@@ -1,10 +1,10 @@
 import store from "../store";
 
 import {
-  SET_ROUNDS,
   SET_ROLL_1,
   SET_ROLL_2,
   SET_FRAME,
+  SET_FRAMES,
   SET_RES
 } from "../types";
 
@@ -22,20 +22,21 @@ export const setRoll_2 = (roll_2) => {
     roll_2: roll_2
   });
 }
-
 export const setFrame = (frame, roll_1, roll_2) => {
   store.dispatch({
     type: SET_FRAME,
-    frame: [...frame, roll_1, roll_2],
+    frame: frame
   });
 }
 
-export const setRounds = (rounds) => {
+export const setFrames = (frames, roll_1, roll_2) => {
   store.dispatch({
-    type: SET_ROUNDS,
-    rounds: rounds
+    type: SET_FRAMES,
+    frames: frames,
+    // frames: [...frames, [roll_1, roll_2, roll_1+roll_2]],
   });
 }
+
 
 export const setRes = (roll_1, roll_2) => {
   store.dispatch({
