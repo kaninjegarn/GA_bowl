@@ -1,7 +1,7 @@
 import React from 'react';
 import './Pins.scss';
 
-export default ({ roll_1, roll_2, rounds }) => {
+export default ({ roll_1, roll_2 }) => {
   let pins = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   pins.splice(0, roll_1);
   pins.splice(0, roll_2);

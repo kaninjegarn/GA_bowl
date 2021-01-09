@@ -3,7 +3,9 @@ import {
   SET_ROLL_2,
   SET_FRAME,
   SET_FRAMES,
-  SET_RES
+  SET_RES,
+  SET_BONUSFRAME,
+  SET_GAMEOVER
 } from "../types";
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
   frame: [],
   frames: [],
   res: [],
+  bonusFrame: [],
+  gameOver: false,
 };
 
 export default (state = initialState, action) => {
@@ -40,6 +44,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         res: action.res
+      };
+    case SET_BONUSFRAME:
+      return {
+        ...state,
+        bonusFrame: action.bonusFrame
+      };
+    case SET_GAMEOVER:
+      return {
+        ...state,
+        gameOver: action.gameOver
       };
   }
   return state;

@@ -1,49 +1,52 @@
 import React, { useEffect } from "react";
 import './Main.scss';
 import { Roll, Game, Pins } from '../../Components';
-import { setFrame, setFrames, setRoll_1, setRoll_2, setRes } from "../../actions";
+import { setFrame, setFrames, setRoll_1, setRoll_2, setRes, setBonusFrame, setGameOver } from "../../actions";
 import { isStrike, isSpare } from "../../helpers";
 
-export default ({ roll_1, roll_2, frames, frame, res  }) => {
+export default ({ roll_1, roll_2, frames, res }) => {
 
   const handleClick = pins => {
-    // console.log(pins, roll_1)
     if (roll_1 + pins > 10) {
       return true;
     }
   }
-  // const isStrike = (roll_1) => {
-  //   const strike = 10
-  //   return roll === strike
-  // }
-
-  // const isSpare = (roll_1, roll_2) => {
-  //   return roll_1 + roll_2 === 10;
-  // }
-
-  // const isStrike = (frame) => {
-  //   console.log("strike")
-  //   return frame[0] == 10;
-  // }
-
-  // function isSpare(round) {
-  //   return !isStrike(round) && getScore(round) == 10;
-  // }
-  // function getScore(round) {
-  //   return round[0] + round[1];
-  // }
 
   useEffect(() => {
     if(roll_2 != "" || roll_2 === 0) {
-      console.log("roll 1", roll_1)
-      console.log("roll2 ", roll_2)
-      let tempArr = [[roll_1, roll_2]];
-      setFrames(frames.concat(tempArr));
-      if(isSpare(roll_1, roll_2)) {
-        console.log("SPARE")
-        
+      // Om det är sista rudan, ingen strike, ingen spare
+      
+      // Om det är en spärr förra slaget
+      if (frames.length > 0 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1])) {
+        // lägg till extra poäng för spärren på förra framens kast(roll_1)
+        let tempNewArray = [...frames]
+        tempNewArray[tempNewArray.length - 1].push(roll_1);
+        setFrames(tempNewArray);
+        let tempArr = [[roll_1, roll_2]];
+        setFrames(frames.concat(tempArr));
+
+        // uppdatera res
+        let tempRes = [roll_1 + roll_2];
+        setRes(res.concat(tempRes));
       }
-      // console.log(frames);
+
+      let tempArr = [[roll_1, roll_2]];
+      let tempRes = [roll_1 + roll_2];
+      setFrames(frames.concat(tempArr));
+      setRes(res.concat(tempRes));
+
+      if (frames.length >= 9 && !isStrike(roll_1) && !isSpare(roll_1, roll_2)) {
+        // Avsluta spel
+        setGameOver(true);
+
+        // OM DET BLIR BONUSRUNDA
+      } else if (frames.length === 9 && isStrike(roll_1)) {
+        console.log("strike")
+        // ELLER AVSLUTA SPEL
+        // setGameOver(true)
+      }
+
+      // gå över i nästa frame
       setRoll_1("");
       setRoll_2("");
     }
@@ -51,14 +54,26 @@ export default ({ roll_1, roll_2, frames, frame, res  }) => {
 
   useEffect(() =>{
     if (roll_1 != "") {
-      
-      console.log("skippar första steget", roll_1)
       if(isStrike(roll_1)) {
-        console.log("STRIKE!");
-        setRoll_2("X")
+        setRoll_2(0)
       }
     }
   }, [roll_1])
+
+  useEffect(() => {
+    // UPPDATERA RES
+    let tempNewRes = [];
+    for (let i = 0; i < frames.length; i++) {
+      let frame = frames[i].reduce((a, b) => a + b, 0);
+      tempNewRes.push(frame);
+    }
+    setRes(tempNewRes)
+  }, [frames])
+
+  useEffect(() => {
+    console.log(frames.length)
+   
+  }, [res]);
 
   return (
     <div>
