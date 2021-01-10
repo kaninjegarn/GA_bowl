@@ -3,14 +3,6 @@
   position: absolute;
   width: 100%;
 
-  &__outline {
-    background-color: black;
-    opacity: 0.5;
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-
   &__content {
     opacity: 1;
     background-color: white;

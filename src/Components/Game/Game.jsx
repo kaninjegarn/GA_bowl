@@ -1,22 +1,19 @@
-import React, { useEffect } from "react";
-import { setRes } from "../../actions";
+import React from "react";
 import { GameOver } from '../../Components'
 import './Game.scss';
 
-export default ({ frames, res, roll_1, roll_2, gameOver }) => {
+export default ({ frames, res, gameOver }) => {
   const renderScores = (frame, roll) => {
     return frames[frame] ? frames[frame][roll] : ''
   }
   const renderRes = (frame) => {
     return res[frame] ? res[frame] : ''
   }
+  
   return (
     <div className="bowling__frames">
       {gameOver && 
         <GameOver />}
-      {res[9] && res[10] &&
-        <h1></h1>
-      }
       <div>Frame 1<div className="bowling__frame"><div>{renderScores(0, 0)}<span>{renderScores(0, 1)}</span></div>
         <div className="bowling__frame--res">
           {res[0] ? res[0] : ''}</div></div></div>
@@ -37,7 +34,8 @@ export default ({ frames, res, roll_1, roll_2, gameOver }) => {
       <div>Frame 9<div className="bowling__frame"><div>{renderScores(8, 0)}<span>{renderScores(8, 1)}</span></div>
         <div className="bowling__frame--res">{res[8] ? res[8] : ''}</div></div></div>
       <div>Frame 10<div className="bowling__frame"><div>{renderScores(9, 0)}<span>{renderScores(9, 1)}</span></div>
-        <div className="bowling__frame--res">{res[9] ? res[9] : ''}</div></div><span>{renderRes(9) + renderRes(10)}</span></div>
+      <div className="bowling__frame--res">{res[9] ? res[9] : ''}
+        <div className="bowling__bonusFrame">{renderRes(9) + renderRes(10)}</div></div></div></div>
       <div><h1>{res.reduce((a, b) => a + b, 0)}</h1></div>
     </div>
   );

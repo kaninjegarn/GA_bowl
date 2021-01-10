@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Main.scss';
 import { Roll, Game, Pins } from '../../Components';
-import { setFrame, setFrames, setRoll_1, setRoll_2, setRes, setBonusFrame, setGameOver } from "../../actions";
+import { setFrames, setRoll_1, setRoll_2, setRes, setGameOver } from "../../actions";
 import { isStrike, isSpare } from "../../helpers";
 
 export default ({ roll_1, roll_2, frames, res }) => {
@@ -23,7 +23,6 @@ export default ({ roll_1, roll_2, frames, res }) => {
     
     if(roll_2 != "" || roll_2 === 0) {
       // Om det är sista rudan, ingen strike, ingen spare
-      
       // Om det är en spärr förra slaget
       if (frames.length > 0 && frames[frames.length - 1][1] > 0 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1])) {
         console.log("förra kastet va en spärr")
