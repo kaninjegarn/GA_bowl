@@ -6,6 +6,7 @@ export default ({ frames, res, gameOver }) => {
   const renderScores = (frame, roll) => {
     return frames[frame] ? frames[frame][roll] : ''
   }
+  
   const renderRes = (frame) => {
     return res[frame] ? res[frame] : ''
   }
@@ -35,7 +36,7 @@ export default ({ frames, res, gameOver }) => {
         <div className="bowling__frame--res">{res[8] ? res[8] : ''}</div></div></div>
       <div>Frame 10<div className="bowling__frame"><div>{renderScores(9, 0)}<span>{renderScores(9, 1)}</span></div>
       <div className="bowling__frame--res">{res[9] ? res[9] : ''}
-        <div className="bowling__bonusFrame">{renderRes(9) + renderRes(10)}</div></div></div></div>
+          {res[10] && <div className="bowling__bonusFrame">{renderRes(9) + renderRes(10)}</div>}</div></div></div>
       <div><h1>{res.reduce((a, b) => a + b, 0)}</h1></div>
     </div>
   );

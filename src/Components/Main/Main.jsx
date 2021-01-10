@@ -5,8 +5,9 @@ import { setFrames, setRoll_1, setRoll_2, setRes, setGameOver } from "../../acti
 import { isStrike, isSpare } from "../../helpers";
 
 export default ({ roll_1, roll_2, frames, res }) => {
-
   const [lastRoundAndPrevWasSpare, setLastRoundAndPrevWasSpare] = useState(false)
+  const checkPrevious = frames.length -1
+  const checkPrePrevious = frames.length -2
 
   const handleClick = pins => {
     if (roll_1 + pins > 10) {
@@ -14,24 +15,27 @@ export default ({ roll_1, roll_2, frames, res }) => {
     }
   }
 
+  const updateScore = () => {
+    let tempArr = [[roll_1, roll_2]];
+    let tempRes = [roll_1 + roll_2];
+    setFrames(frames.concat(tempArr));
+    setRes(res.concat(tempRes));
+  }
+
   useEffect(() => {
-    if (frames.length === 10 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1]) && !isStrike(frames[frames.length - 1][0])) {
-      console.log("sista rundan och du får en spärr, nu ska du bara slå ett slag till")
+    // kolla ifall det är sista rundan, du får en spärr, då har du bara 1 slag kvar. 
+      if (frames.length === 10 && isSpare(frames[checkPrevious][0], frames[checkPrevious][1]) && !isStrike(frames[checkPrevious][0])) {
       setLastRoundAndPrevWasSpare(true);
-      console.log(lastRoundAndPrevWasSpare)
     }
     
-    if(roll_2 != "" || roll_2 === 0) {
-      // Om det är sista rudan, ingen strike, ingen spare
+    if(roll_2 !== "" || roll_2 === 0) {
       // Om det är en spärr förra slaget
-      if (frames.length > 0 && frames[frames.length - 1][1] > 0 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1])) {
-        console.log("förra kastet va en spärr")
-        // lägg till extra poäng för spärren på förra framens kast(roll_1)
+      if (frames.length > 0 && frames[checkPrevious][1] > 0 && isSpare(frames[checkPrevious][0], frames[checkPrevious][1])) {
         // klona frames
         let tempNewArray = [...frames]
-        // lägg till värdet av denna rundans roll i den tidigare
+        // lägg till värdet av denna rundans roll i rundan tidigare
         tempNewArray[tempNewArray.length - 1].push(roll_1);
-        // byt ut frames till den nya klonade arrayn
+        // byt ut frames till den nya klonade arrayen
         setFrames(tempNewArray);
         // skapa ny array som skall in i frames
         let tempArr = [[roll_1, roll_2]];
@@ -44,8 +48,9 @@ export default ({ roll_1, roll_2, frames, res }) => {
       }
 
       // Om det är en strike förra slaget
-      if(frames.length > 0 && isStrike(frames[frames.length -1][0])) {
-        if(frames.length > 1 && isStrike(frames[frames.length-2][0])) {
+      if (frames.length > 0 && isStrike(frames[checkPrevious][0])) {
+        // om det var strike för 2 slag sen
+        if (frames.length > 1 && isStrike(frames[checkPrePrevious][0])) {
           let tempNewArray = [...frames]
           // lägg till värdet av denna rundans roll i den tidigare
           tempNewArray[tempNewArray.length - 2].push(roll_1, roll_2);
@@ -66,22 +71,12 @@ export default ({ roll_1, roll_2, frames, res }) => {
         // uppdatera res
         let tempRes = [roll_1 + roll_2];
         setRes(res.concat(tempRes));
-        console.log("förra kastet va en strike")
       }
-
-      let tempArr = [[roll_1, roll_2]];
-      let tempRes = [roll_1 + roll_2];
-      setFrames(frames.concat(tempArr));
-      setRes(res.concat(tempRes));
+      updateScore();
 
       if (frames.length === 9 && !isStrike(roll_1) && !isSpare(roll_1, roll_2)) {
         // Avsluta spel
         setGameOver(true);
-
-        // OM DET BLIR BONUSRUNDA
-      } else if (frames.length === 9 && isStrike(roll_1)) {
-        console.log("strike")
-        // ELLER AVSLUTA SPEL
       }
 
       // gå över i nästa frame
@@ -91,7 +86,7 @@ export default ({ roll_1, roll_2, frames, res }) => {
   }, [roll_2]);
 
   useEffect(() =>{
-    if (roll_1 != "") {
+    if (roll_1 !== "") {
       if(isStrike(roll_1)) {
         setRoll_2(0)
       }
@@ -113,12 +108,9 @@ export default ({ roll_1, roll_2, frames, res }) => {
   }, [frames])
 
   useEffect(() => {
-    console.log(frames.length)
-
     if (res.length >=11) {
       setGameOver(true)
     }
-   
   }, [res]);
 
   return (

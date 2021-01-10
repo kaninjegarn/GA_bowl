@@ -1,20 +1,16 @@
 import {
   SET_ROLL_1,
   SET_ROLL_2,
-  SET_FRAME,
   SET_FRAMES,
   SET_RES,
-  SET_BONUSFRAME,
   SET_GAMEOVER
 } from "../types";
 
 const initialState = {
   roll_1: "",
   roll_2: "",
-  frame: [],
   frames: [],
   res: [],
-  bonusFrame: [],
   gameOver: false,
 };
 
@@ -30,11 +26,6 @@ export default (state = initialState, action) => {
           ...state,
           roll_2: action.roll_2
         };
-      case SET_FRAME:
-        return {
-          ...state,
-          frame: action.frame
-        };
       case SET_FRAMES:
         return {
           ...state,
@@ -44,11 +35,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         res: action.res
-      };
-    case SET_BONUSFRAME:
-      return {
-        ...state,
-        bonusFrame: action.bonusFrame
       };
     case SET_GAMEOVER:
       return {
