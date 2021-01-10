@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './Main.scss';
 import { Roll, Game, Pins } from '../../Components';
 import { setFrame, setFrames, setRoll_1, setRoll_2, setRes, setBonusFrame, setGameOver } from "../../actions";
 import { isStrike, isSpare } from "../../helpers";
 
 export default ({ roll_1, roll_2, frames, res }) => {
+
+  const [lastRoundAndPrevWasSpare, setLastRoundAndPrevWasSpare] = useState(false)
 
   const handleClick = pins => {
     if (roll_1 + pins > 10) {
@@ -13,16 +15,28 @@ export default ({ roll_1, roll_2, frames, res }) => {
   }
 
   useEffect(() => {
+    if (frames.length === 10 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1]) && !isStrike(frames[frames.length - 1][0])) {
+      console.log("sista rundan och du får en spärr, nu ska du bara slå ett slag till")
+      setLastRoundAndPrevWasSpare(true);
+      console.log(lastRoundAndPrevWasSpare)
+    }
+    
     if(roll_2 != "" || roll_2 === 0) {
       // Om det är sista rudan, ingen strike, ingen spare
       
       // Om det är en spärr förra slaget
-      if (frames.length > 0 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1])) {
+      if (frames.length > 0 && frames[frames.length - 1][1] > 0 && isSpare(frames[frames.length - 1][0], frames[frames.length - 1][1])) {
+        console.log("förra kastet va en spärr")
         // lägg till extra poäng för spärren på förra framens kast(roll_1)
+        // klona frames
         let tempNewArray = [...frames]
+        // lägg till värdet av denna rundans roll i den tidigare
         tempNewArray[tempNewArray.length - 1].push(roll_1);
+        // byt ut frames till den nya klonade arrayn
         setFrames(tempNewArray);
+        // skapa ny array som skall in i frames
         let tempArr = [[roll_1, roll_2]];
+        // lägg till nya rollsen på rätt plats
         setFrames(frames.concat(tempArr));
 
         // uppdatera res
@@ -30,12 +44,38 @@ export default ({ roll_1, roll_2, frames, res }) => {
         setRes(res.concat(tempRes));
       }
 
+      // Om det är en strike förra slaget
+      if(frames.length > 0 && isStrike(frames[frames.length -1][0])) {
+        if(frames.length > 1 && isStrike(frames[frames.length-2][0])) {
+          let tempNewArray = [...frames]
+          // lägg till värdet av denna rundans roll i den tidigare
+          tempNewArray[tempNewArray.length - 2].push(roll_1, roll_2);
+          // byt ut frames till den nya klonade arrayn
+          setFrames(tempNewArray);
+        }
+        // klona frames
+        let tempNewArray = [...frames]
+        // lägg till värdet av denna rundans roll i den tidigare
+        tempNewArray[tempNewArray.length - 1].push(roll_1, roll_2);
+        // byt ut frames till den nya klonade arrayn
+        setFrames(tempNewArray);
+        // skapa ny array som skall in i frames
+        let tempArr = [[roll_1, roll_2]];
+        // lägg till nya rollsen på rätt plats
+        setFrames(frames.concat(tempArr));
+
+        // uppdatera res
+        let tempRes = [roll_1 + roll_2];
+        setRes(res.concat(tempRes));
+        console.log("förra kastet va en strike")
+      }
+
       let tempArr = [[roll_1, roll_2]];
       let tempRes = [roll_1 + roll_2];
       setFrames(frames.concat(tempArr));
       setRes(res.concat(tempRes));
 
-      if (frames.length >= 9 && !isStrike(roll_1) && !isSpare(roll_1, roll_2)) {
+      if (frames.length === 9 && !isStrike(roll_1) && !isSpare(roll_1, roll_2)) {
         // Avsluta spel
         setGameOver(true);
 
@@ -43,7 +83,6 @@ export default ({ roll_1, roll_2, frames, res }) => {
       } else if (frames.length === 9 && isStrike(roll_1)) {
         console.log("strike")
         // ELLER AVSLUTA SPEL
-        // setGameOver(true)
       }
 
       // gå över i nästa frame
@@ -56,6 +95,10 @@ export default ({ roll_1, roll_2, frames, res }) => {
     if (roll_1 != "") {
       if(isStrike(roll_1)) {
         setRoll_2(0)
+      }
+      if (lastRoundAndPrevWasSpare) {
+        setRoll_2(0)
+        setGameOver(true);
       }
     }
   }, [roll_1])
@@ -72,6 +115,10 @@ export default ({ roll_1, roll_2, frames, res }) => {
 
   useEffect(() => {
     console.log(frames.length)
+
+    if (res.length >=11) {
+      setGameOver(true)
+    }
    
   }, [res]);
 

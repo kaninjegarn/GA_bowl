@@ -7,8 +7,8 @@ export default ({ roll_1, roll_2 }) => {
   pins.splice(0, roll_2);
 
   return (
-    <div className="container">
-      <div className="pins">
+    <div className="bowling__alley">
+      <div className="bowling__alley--lane">
         <div className="row-4">
           {pins.includes(1) && <div className="pin-1" />}
           {pins.includes(2) && <div className="pin-2" />}

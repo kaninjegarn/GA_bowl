@@ -1,8 +1,18 @@
 
-.container {
+.bowling__alley {
   margin-top: 40px;
   display: flex;
   justify-content: center;
+
+  &--lane {
+    padding: 15px;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    height: 50vh;
+    min-width: 260px;
+    max-width: 260px;
+    background-image: url('./bowlingFloorTexture.png');
+  }
 }
 
 .pin-1, .pin-2, .pin-3, .pin-4, .pin-5, .pin-6, .pin-7,
@@ -10,6 +20,7 @@
   height: 50px;
   width: 50px;
   border: 1px solid black;
+  background-color: white;
   border-radius: 99px;
 }
 
@@ -18,4 +29,3 @@
   margin: 0 auto;
   justify-content: center;
 }
-

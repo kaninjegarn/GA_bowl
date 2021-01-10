@@ -37,7 +37,7 @@ export default ({ frames, res, roll_1, roll_2, gameOver }) => {
       <div>Frame 9<div className="bowling__frame"><div>{renderScores(8, 0)}<span>{renderScores(8, 1)}</span></div>
         <div className="bowling__frame--res">{res[8] ? res[8] : ''}</div></div></div>
       <div>Frame 10<div className="bowling__frame"><div>{renderScores(9, 0)}<span>{renderScores(9, 1)}</span></div>
-        <div className="bowling__frame--res">{res[9] ? res[9] : ''}<span>{renderRes(9) + renderRes(10)}</span></div></div></div>
+        <div className="bowling__frame--res">{res[9] ? res[9] : ''}</div></div><span>{renderRes(9) + renderRes(10)}</span></div>
       <div><h1>{res.reduce((a, b) => a + b, 0)}</h1></div>
     </div>
   );
